@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: openvk
+    env: docker
+    plan: starter
+    autoDeploy: true
+    healthCheckPath: /
+    envVars:
+      - key: DB_HOST
+        fromService:
+          name: mysql
+          type: pserv
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_NAME
+        value: "openvk"
+      - key: DB_USER
+        value: "ovkuser"
+      - key: DB_PASS
+        sync: false  # set manually in dashboard to match MYSQL_PASSWORD
+  - type: pserv
+    name: mysql
+    env: docker
+    plan: starter
+    autoDeploy: true
+    dockerfilePath: ./mysql/Dockerfile
+    envVars:
+      - key: MYSQL_DATABASE
+        value: "openvk"
+      - key: MYSQL_USER
+        value: "ovkuser"
+      - key: MYSQL_PASSWORD
+        sync: false  # Render will generate; copy to DB_PASS in web service
+      - key: MYSQL_ROOT_PASSWORD
+        sync: false
+    disk:
+      name: mysql-data
+      mountPath: /var/lib/mysql
+      sizeGB: 10

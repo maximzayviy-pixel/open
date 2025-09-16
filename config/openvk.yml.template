@@ -1,0 +1,10 @@
+database:
+  username: ${DB_USER}
+  password: "${DB_PASS}"
+  schema: ${DB_NAME}
+  host: ${DB_HOST}
+  port: ${DB_PORT}
+
+appearance:
+  instanceName: "My OpenVK"
+  motd: "Welcome to your OpenVK on Render"
